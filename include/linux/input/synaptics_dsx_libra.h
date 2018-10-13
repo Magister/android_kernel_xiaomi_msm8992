@@ -6,7 +6,7 @@
  * Copyright (C) 2012 Alexandra Chin <alexandra.chin@tw.synaptics.com>
  * Copyright (C) 2012 Scott Lin <scott.lin@tw.synaptics.com>
  * Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
- * Copyright (C) 2016 XiaoMi, Inc.
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -111,6 +111,7 @@ struct synaptics_dsx_board_data {
 	u32 power_gpio_flags;
 	u32 reset_gpio_flags;
 	u32 irq_gpio_flags;
+	bool cut_off_power;
 	bool use_charger_bit;
 	int (*gpio_config)(int gpio, bool configure, int dir, int state);
 	const char *pwr_reg_name;

@@ -5,7 +5,7 @@
  *
  * Copyright (C) 2012 Alexandra Chin <alexandra.chin@tw.synaptics.com>
  * Copyright (C) 2012 Scott Lin <scott.lin@tw.synaptics.com>
- * Copyright (C) 2016 XiaoMi, Inc.
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,6 +56,7 @@ static void dump_dt(struct device *dev, struct synaptics_dsx_board_data *bdata)
 	dev_dbg(dev, "power_delay_ms = %d\n", (int)bdata->power_delay_ms);
 	dev_dbg(dev, "reset_delay_ms = %d\n", (int)bdata->reset_delay_ms);
 	dev_dbg(dev, "reset_active_ms = %d\n", (int)bdata->reset_active_ms);
+	dev_dbg(dev, "cut_off_power = %d\n", (int)bdata->cut_off_power);
 	dev_dbg(dev, "use_charger_bit = %d\n", (int)bdata->use_charger_bit);
 	dev_dbg(dev, "swap_axes = %d\n", (int)bdata->swap_axes);
 	dev_dbg(dev, "x_flip = %d\n", (int)bdata->x_flip);
@@ -144,7 +145,7 @@ static int parse_dt(struct device *dev, struct synaptics_dsx_board_data *bdata)
 
 	retval = of_property_read_string(np, "synaptics,power-gpio-name", &name);
 	if (retval == -EINVAL)
-		bdata->power_gpio_name = NULL;
+		bdata->power_gpio_name= NULL;
 	else if (retval < 0)
 		return retval;
 	else
@@ -152,7 +153,7 @@ static int parse_dt(struct device *dev, struct synaptics_dsx_board_data *bdata)
 
 	retval = of_property_read_string(np, "synaptics,reset-gpio-name", &name);
 	if (retval == -EINVAL)
-		bdata->reset_gpio_name = NULL;
+		bdata->reset_gpio_name= NULL;
 	else if (retval < 0)
 		return retval;
 	else
@@ -160,11 +161,13 @@ static int parse_dt(struct device *dev, struct synaptics_dsx_board_data *bdata)
 
 	retval = of_property_read_string(np, "synaptics,irq-gpio-name", &name);
 	if (retval == -EINVAL)
-		bdata->irq_gpio_name = NULL;
+		bdata->irq_gpio_name= NULL;
 	else if (retval < 0)
 		return retval;
 	else
 		bdata->irq_gpio_name = name;
+
+	bdata->cut_off_power = of_property_read_bool(np, "synaptics,cut-off-power");
 
 	bdata->use_charger_bit = of_property_read_bool(np, "synaptics,use-charger-bit");
 
